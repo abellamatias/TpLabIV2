@@ -3,7 +3,7 @@ import Tabla from "./components/Tabla"
 import Filter from "./components/Filtro";
 import { useConsulta } from "./hooks/consultarReservas";
 import { ModalAlta } from "../../ABMReservas/altaReserva/components/modal/ModalAlta";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { FormikValues } from "formik";
 import { IReserva } from "./interfaces/interfazTabla";
 import { ModalConfirmacion } from "../../../common/modal/ModalConfirmacion";
@@ -40,11 +40,11 @@ const Reservas = () => {
     }
     const handleUpdateAccept = async (row:FormikValues) => {
       const body:IReserva={
-        fecha: row.dia,
+        fecha: row.fecha,
         hora: row.hora,
         cancha_id: row.cancha_id,
-        telefono: row.tel,
-        nombre_contacto: row.contacto,
+        telefono: row.telefono,
+        nombre_contacto: row.nombre_contacto,
         duracion: row.duracion,
         id:row.id
       }
@@ -62,10 +62,6 @@ const Reservas = () => {
       setTempValor({fecha:'', hora:'', duracion:0, telefono:'', nombre_contacto:'', cancha_id:0, id:0});
     }
 
-    useEffect(()=>{
-      console.log(tempValorEditar.valores)
-    }, [rows])
-
   return (
     <div style={{width: '100%', height:'100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       <Filter handleSubmit={handleSubmitConsulta} /> 
@@ -73,7 +69,7 @@ const Reservas = () => {
       { open && (<ModalAlta open={open} handleClose={()=>{setOpen(false)}} handleSubmit={handleSubmitAdd}/>)}
       { tempValorEditar.open && (<ModalUpdate open={tempValorEditar.open} data={tempValorEditar.valores} handleClose={()=>{setTempValorEditar({...tempValorEditar, valores:{fecha:'', hora:'', duracion:0, telefono:'', nombre_contacto:'', cancha_id:0, id:0}, open:false});}} handleSubmit={handleUpdateAccept}/>)}
       { openModalConfirmar && (<ModalConfirmacion open={openModalConfirmar} mensaje="Eliminar reserva" handleClose={()=>{setOpenModalConfirmar(false); setTempValor({fecha:'', hora:'', duracion:0, telefono:'', nombre_contacto:'', cancha_id:0, id:0});}} handleSubmit={handleDelete}/>)}
-      
+      {/* {tempValorEditar && <p>{tempValorEditar.valores.cancha_id + ' / ' + tempValorEditar.valores.fecha + ' / ' + tempValorEditar.valores.hora + ' / ' + tempValorEditar.valores.duracion + ' / ' + tempValorEditar.valores.telefono + ' / ' + tempValorEditar.valores.nombre_contacto + ' / ' + tempValorEditar.valores.id}</p>} */}
     </div>
   )
   

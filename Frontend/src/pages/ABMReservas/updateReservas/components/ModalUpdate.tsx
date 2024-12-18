@@ -14,7 +14,7 @@ interface InputProps {
     open: boolean;
     data:IReserva;
     handleClose: () => void;
-    handleSubmit:(values:FormikValues)=>void
+    handleSubmit:(values:IReserva)=>void
 
 }
 
@@ -55,12 +55,12 @@ export const ModalUpdate = ({open, data, handleClose, handleSubmit}:InputProps) 
     
           const [fecha, setFecha] = useState<Dayjs | null>(null);
           const [hora, setHora] = useState<number>(0);
-          const [tempValores, setTempValores] = useState<FormikValues>({fecha:'', hora:'', duracion:0, telefono:'', nombre_contacto:'', cancha_id:0});
+          const [tempValores, setTempValores] = useState<IReserva>({fecha:'', hora:'', duracion:0, telefono:'', nombre_contacto:'', cancha_id:0, id:data.id});
 
           const handleSendForm = async () => {
             setOpenModalConfirmar(false);
             await handleSubmit(tempValores);
-            setTempValores({fecha:'', hora:'', duracion:0, telefono:'', nombre_contacto:'', cancha_id:0});
+            setTempValores({...tempValores, fecha:'', hora:'', duracion:0, telefono:'', nombre_contacto:'', cancha_id:0});
 
         }
         
@@ -68,7 +68,17 @@ export const ModalUpdate = ({open, data, handleClose, handleSubmit}:InputProps) 
           const onSubmitFormik =
           async(values:FormikValues) => 
               {
-                setTempValores(values);
+                const body:IReserva={
+                    fecha: values.fecha,
+                    hora: values.hora,
+                    duracion: values.duracion,
+                    telefono: values.telefono,
+                    nombre_contacto: values.nombre_contacto,
+                    cancha_id: values.cancha_id,
+                    id:data.id
+
+                }
+                setTempValores(body);
                 setOpenModalConfirmar(true);
               }
     

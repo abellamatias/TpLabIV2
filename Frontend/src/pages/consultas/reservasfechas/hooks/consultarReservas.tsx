@@ -75,8 +75,8 @@ export const useConsulta = ()  => {
         const EliminarReserva = async (id:number) => {
             await eliminarReserva(id).then((res)=>{
                 if(res.status==200){ 
-                    consultaFechaYCancha(ultimaBusqueda.fecha!, ultimaBusqueda.cancha_id!).then((res)=>{
-                        setRows(res.data!)
+                    consultaFechaYCancha(ultimaBusqueda.fecha!, ultimaBusqueda.cancha_id!).then((resp)=>{
+                        setRows(resp.data!)
                     })
                     alert('Reserva eliminada exitosamente')
                 }
